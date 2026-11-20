@@ -10,8 +10,7 @@
 use std::sync::Arc;
 
 use handl_lib_serialize::{Decoder, Encoder, SerializeError, Serializer};
-use handl_platform::{EvalContext, EvalError, Function};
-use handl_plugin_lib_handl::OpRegistry;
+use handl_ops::{Op, OpContext, OpError, OpRegistry};
 use serde_json::Value;
 use toml::Value as TomlValue;
 
@@ -89,17 +88,17 @@ impl Decoder<str, TomlValue> for TomlDecoder {
 #[derive(Debug, Clone, Copy)]
 pub struct TomlCSerialize;
 
-impl Function for TomlCSerialize {
-    fn call(&self, args: &[Value], _ctx: &mut EvalContext) -> Result<Value, EvalError> {
+impl Op for TomlCSerialize {
+    fn call(&self, args: &[Value], _ctx: &mut dyn OpContext) -> Result<Value, OpError> {
         if args.len() != 1 {
-            return Err(EvalError::TypeMismatch(format!(
+            return Err(OpError::TypeMismatch(format!(
                 "expected {} args, got {}",
                 1,
                 args.len()
             )));
         }
         let s = toml::to_string(&args[0])
-            .map_err(|e| EvalError::Other(format!("toml_c.serialize error: {e}")))?;
+            .map_err(|e| OpError::Other(format!("toml_c.serialize error: {e}")))?;
         Ok(Value::String(s))
     }
 }
@@ -112,10 +111,10 @@ impl Function for TomlCSerialize {
 #[derive(Debug, Clone, Copy)]
 pub struct TomlCDeserialize;
 
-impl Function for TomlCDeserialize {
-    fn call(&self, args: &[Value], _ctx: &mut EvalContext) -> Result<Value, EvalError> {
+impl Op for TomlCDeserialize {
+    fn call(&self, args: &[Value], _ctx: &mut dyn OpContext) -> Result<Value, OpError> {
         if args.len() != 1 {
-            return Err(EvalError::TypeMismatch(format!(
+            return Err(OpError::TypeMismatch(format!(
                 "expected {} args, got {}",
                 1,
                 args.len()
@@ -123,9 +122,9 @@ impl Function for TomlCDeserialize {
         }
         let s = args[0]
             .as_str()
-            .ok_or_else(|| EvalError::Other("toml_c.deserialize expects a string".to_string()))?;
+            .ok_or_else(|| OpError::Other("toml_c.deserialize expects a string".to_string()))?;
         let value: Value = toml::from_str(s)
-            .map_err(|e| EvalError::Other(format!("toml_c.deserialize error: {e}")))?;
+            .map_err(|e| OpError::Other(format!("toml_c.deserialize error: {e}")))?;
         Ok(value)
     }
 }
