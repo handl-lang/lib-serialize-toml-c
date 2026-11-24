@@ -1,0 +1,14 @@
+-- lib-serialize-toml-c: the `serialize-toml-c` module — native TOML
+-- serializer backend for `lib-serialize` (the `toml` crate over the
+-- serialize traits). Transitional layout: the interface is
+-- `src/index.hnl` (`toml_c.*` op declarations); the impl is the
+-- `handl-plugin-lib-serialize-toml-c` crate.
+{
+  deps: { serialize: "branch:main" },
+  modules: ["serialize-toml-c"],
+  name: "serialize-toml-c",
+  description: "Native TOML serializer backend for the serialize contract — toml_c.serialize/deserialize via the toml crate.",
+  license: "MIT",
+  keywords: ["toml", "serialize", "backend", "rust", "handl"],
+  homepage: "https://github.com/handl-lang/lib-serialize-toml-c",
+}
