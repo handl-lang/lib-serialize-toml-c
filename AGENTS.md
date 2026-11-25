@@ -8,15 +8,16 @@ for `lib-serialize` (the `toml` crate over the serialize traits).
 | path | role |
 | --- | --- |
 | `src/lib.rs` | the Rust plugin crate (`handl-plugin-lib-serialize-toml-c`) |
-| `src/index.hnl` | the interface — `toml_c.*` op declarations |
+| `src/index.hnl` | the interface — documentation surface; atom spec in `atoms.yaml` (P-013/T-151) |
 | `atoms.yaml`, `Cargo.toml`, `xtask/` | atoms / manifest / `cargo xtask` gate |
 | `pkg.hnl`, `scripts/hnl-gate.sh`, `workflows/gate.yaml` | manifest (dep `serialize`) / hnl gate / bupha entry |
 
 ## Contract
 
-- Transitional layout: interface is `src/index.hnl`; impl is the
+- Spec-driven layout: `atoms.yaml` is the spec; the impl is the
   Rust crate — `toml_c.serialize`/`deserialize` over the `toml`
-  crate via the `lib-serialize` traits.
+  crate via the `lib-serialize` traits — adapted by the host's
+  `toml_c_impls()` table (`plugin-lib-stdlib` `ops/kernel_impls.rs`).
 - Deps resolve from git — a plain clone test-runs as-is.
 
 ## Verification
