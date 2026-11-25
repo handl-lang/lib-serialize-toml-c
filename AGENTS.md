@@ -1,3 +1,34 @@
+# lib-serialize-toml-c
+
+`handl-plugin-lib-serialize-toml-c` — native TOML serializer backend
+for `lib-serialize` (the `toml` crate over the serialize traits).
+
+## Layout
+
+| path | role |
+| --- | --- |
+| `src/lib.rs` | the Rust plugin crate (`handl-plugin-lib-serialize-toml-c`) |
+| `src/index.hnl` | the interface — `toml_c.*` op declarations |
+| `atoms.yaml`, `Cargo.toml`, `xtask/` | atoms / manifest / `cargo xtask` gate |
+| `pkg.hnl`, `scripts/hnl-gate.sh`, `ci.sh` | manifest (dep `serialize`) / hnl gate / bupha entry |
+
+## Contract
+
+- Transitional layout: interface is `src/index.hnl`; impl is the
+  Rust crate — `toml_c.serialize`/`deserialize` over the `toml`
+  crate via the `lib-serialize` traits.
+- Deps resolve from git — a plain clone test-runs as-is.
+
+## Verification
+
+```bash
+cargo xtask gate        # fmt --check → clippy -D warnings → test → doc
+```
+
+## License
+
+MIT.
+
 <!-- myco:agent-awareness -->
 
 ## Agent awareness
