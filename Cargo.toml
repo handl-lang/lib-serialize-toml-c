@@ -2,6 +2,7 @@
 name = "handl-plugin-lib-serialize-toml-c"
 version = "0.1.0"
 edition = "2024"
+rust-version = "1.85"
 description = "serialize-toml-c: native TOML serializer backend for lib-serialize (ADR-0128 split)."
 license = "MIT"
 repository = "https://github.com/handl-lang/lib-serialize-toml-c"
